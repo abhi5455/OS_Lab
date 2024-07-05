@@ -1,82 +1,210 @@
 #include<stdio.h>
-int getseektime(int a, int b)
-{
-    if(a>b)
-        return a-b;
-    return b-a;
-}
-void copy(int arr[],int temp[],int n)
-{
-    for(int i=0;i<n;i++)
-    {
-        temp[i]=arr[i];
+#include<stdlib.h>
+int n,request[25],temp[30],trackLimit,head;
+int FCFS(){
+    int i, seekTime=0, currPos=head;
+    for(i=0;i<n;i++){
+        seekTime += abs(request[i]-currPos);
+        currPos=request[i];
     }
+    printf("\nFCFS seek time: %d\n",seekTime);
+    return seekTime;
 }
-void sort(int arr[],int n)
-{
-    int temp;
-    for(int i=0;i<n-1;i++)
-    {
-        for(int j=0;j<n-i-1;j++)
-        {
-            if(arr[j]>arr[j+1])
-            {
-                temp=arr[j];
-                arr[j]=arr[j+1];
-                arr[j+1]=temp;
+int SSTF(){
+    int i, j, seekTime=0, temp_var, index=0, currPos, leftPos,rightPos;
+    for(i=0;i<n;i++){
+        for(j=0;j<n-i-1;j++){
+            if(temp[j]>temp[j+1]){
+                temp_var=temp[j];
+                temp[j]=temp[j+1];
+                temp[j+1]=temp_var;
             }
         }
     }
-}
-int reqindex(int arr[],int p,int n)
-{
-    int i;
-    for(int i=0;i<n;i++)
-    {
-        if(arr[i]>=p)
-        {
-            return i;
+    for(i=0;i<n;i++){
+        if(head<temp[i]){
+            index=i;
+            break;
         }
     }
-    return -1;
-}
-void fcfs(int arr[],int p,int n,int max)
-    {
-    printf("\nFCFS SCHEDULING\n");
-    int seektime=0;
-    printf("%d->",p);
-    for(int i=0;i<n;i++)
-    {
-        seektime+=getseektime(arr[i],p);
-        if(i != n-1)
-        {
-            printf("%d->",arr[i]);
-        }
-        else
-        {
-            printf("%d",arr[i]);
-            p=arr[i];
-        }
-    }
-    printf("The total head movementm in FCFS is: %d\n\n",seektime);
-    }
-int main()
-{
-    printf("DISK SCEDULING\n");
-    int max,n,p;
-    printf("Enter the track limit of the disk:");
-    scanf("%d",&max);
-    printf("Enter the number of requests:");
-    scanf("%d",&n);
-    int arr[n];
-    printf("Enter the numbers:");
-    for(int i=0;i<n;i++)
-    {
-        scanf("%d",&arr[i]);
-    }
-    printf("Enter the current position of the track:");
-    scanf("%d",&p);
-    fcfs(arr,p,max,n);
-    return 0;
 
+    if(head>=temp[n-1]){
+        seekTime+=abs(head-temp[0]);
+    }
+    else if(head<=temp[0]){
+        seekTime+=abs(temp[n-1]-head);
+    }
+    else{
+        currPos=head;
+        rightPos=index;
+        leftPos=index-1;
+        for(i=0;i<n;i++){
+            if(leftPos<0){
+                seekTime+=abs(temp[rightPos]-currPos);
+                currPos=temp[rightPos];
+                rightPos++;
+            }
+            else if(rightPos>n-1){
+                seekTime+=abs(currPos-temp[leftPos]);
+                currPos=temp[leftPos];
+                leftPos--;
+            }
+            else if((currPos-temp[leftPos])<(temp[rightPos]-currPos)){
+                seekTime+=abs(currPos-temp[leftPos]);
+                currPos=temp[leftPos];
+                leftPos--;
+            }
+            else{
+                seekTime+=abs(temp[rightPos]-currPos);
+                currPos=temp[rightPos];
+                rightPos++;
+            }
+        }
+    }
+    printf("SSTF seek time: %d\n",seekTime);
+    return seekTime;
+}
+int SCAN(){
+    int i, j, seekTime=0, temp_var, index=0;
+    for(i=0;i<n;i++){
+        for(j=0;j<n-i-1;j++){
+            if(temp[j]>temp[j+1]){
+                temp_var=temp[j];
+                temp[j]=temp[j+1];
+                temp[j+1]=temp_var;
+            }
+        }
+    }
+    for(i=0;i<n;i++){
+        if(head<temp[i]){
+            index=i;
+            break;
+        }
+    }
+    if(index==0){
+        seekTime+= abs(temp[n-1]-head);
+    }
+    else{
+        seekTime+=abs(trackLimit-head);
+        seekTime+=(trackLimit-temp[0]);
+    }
+    printf("SCAN seek time: %d\n",seekTime);
+    return seekTime;
+}
+int CSCAN(){
+    int i, j, seekTime=0, currPos=head, temp_var,index=0;
+    for(i=0;i<n;i++){
+        for(j=0;j<n-i-1;j++){
+            if(temp[j]>temp[j+1]){
+                temp_var=temp[j];
+                temp[j]=temp[j+1];
+                temp[j+1]=temp_var;
+            }
+        }
+    }
+    for(i=0;i<n;i++){
+        if(head<temp[i]){
+            index=i;
+            break;
+        }
+    }
+    if(index==0){
+        seekTime+= abs(temp[n-1]-head);
+    }
+    else{
+        seekTime+=abs(trackLimit-head);
+        seekTime+=trackLimit;
+        seekTime+=temp[index-1];
+    }
+    printf("CSCAN seek time: %d\n",seekTime);
+    return seekTime;
+}
+int LOOK(){
+    int i, j, seekTime=0, currPos=head, temp_var,index=0;
+    for(i=0;i<n;i++){
+        for(j=0;j<n-i-1;j++){
+            if(temp[j]>temp[j+1]){
+                temp_var=temp[j];
+                temp[j]=temp[j+1];
+                temp[j+1]=temp_var;
+            }
+        }
+    }
+    for(i=0;i<n;i++){
+        if(head<temp[i]){
+            index=i;
+            break;
+        }
+    }
+    if(index==0){
+        seekTime+= abs(temp[n-1]-head);
+    }
+    else{
+        seekTime+=abs(temp[n-1]-head);
+        seekTime+=abs(temp[n-1]-temp[0]);
+    }
+    printf("LOOK seek time: %d\n",seekTime);
+    return seekTime;
+}
+int CLOOK(){
+    int i, j, seekTime=0, currPos=head, temp_var,index=0;
+    for(i=0;i<n;i++){
+        for(j=0;j<n-i-1;j++){
+            if(temp[j]>temp[j+1]){
+                temp_var=temp[j];
+                temp[j]=temp[j+1];
+                temp[j+1]=temp_var;
+            }
+        }
+    }
+    for(i=0;i<n;i++){
+        if(head<temp[i]){
+            index=i;
+            break;
+        }
+    }
+    if(index==0){
+        seekTime+= abs(temp[n-1]-head);
+    }
+    else{
+        seekTime+=abs(temp[n-1]-head);
+        seekTime+=abs(temp[n-1]-temp[0]);
+        seekTime+=abs(temp[index-1]-temp[0]);
+    }
+    printf("CLOOK seek time: %d\n",seekTime);
+    return seekTime;
+}
+int main(){
+    int i;
+    printf("Enter the number of requests: ");
+    scanf(" %d",&n);
+    printf("Enter the Request Sequence: ");
+    for(i=0;i<n;i++){
+        scanf("%d",&request[i]);
+    }
+    printf("Enter the disk size: ");
+    scanf("%d",&trackLimit);
+    trackLimit=trackLimit-1;
+    printf("Enter the current head position: ");
+    scanf("%d",&head);
+    printf("\nDisk Size: (0 - %d)\n",trackLimit);
+    for(i=0;i<n;i++){
+        temp[i]=request[i];
+        if(request[i]>trackLimit){
+            printf("\nIndexOutOfBound Exception!\n");
+            return 1;
+        }
+    }
+    printf("Request Sequence: ");
+    for(i=0;i<n;i++){
+        printf("%d ",temp[i]);
+    }
+    printf("\n");
+    FCFS();
+    SSTF();
+    SCAN();
+    CSCAN();
+    LOOK();
+    CLOOK();
+    return 0;
 }
