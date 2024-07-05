@@ -17,4 +17,4 @@
 9. Implement the banker’s algorithm for deadlock avoidance. *
 10. Implementation of Deadlock detection algorithm
 11. Simulate disk scheduling algorithms. *
-a) FCFS b)SSTF c) SCAN d) C-SCAN e) LOOK f) C-LOOK
+a) FCFS b) SSTF c) SCAN d) C-SCAN e) LOOK f) C-LOOK
