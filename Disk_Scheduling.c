@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
-int n,request[25],temp[30],trackLimit,head;
+int n,request[25],temp[25],trackLimit,head;
 int FCFS(){
     int i, seekTime=0, currPos=head;
     for(i=0;i<n;i++){
