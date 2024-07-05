@@ -216,7 +216,7 @@ int main(){
     printf("\nDisk Size: (0 - %d)\n",trackLimit);
     for(i=0;i<n;i++){
         temp[i]=request[i];
-        if(request[i]>trackLimit){
+        if((request[i]>trackLimit)||(head>trackLimit)||(head<0)){
             printf("\nIndexOutOfBound Exception!\n");
             return 1;
         }
