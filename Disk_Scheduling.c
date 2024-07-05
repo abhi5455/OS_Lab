@@ -76,13 +76,17 @@ int SCAN(){
         }
     }
     for(i=0;i<n;i++){
-        if(head<temp[i]){
+        if(head<=temp[i]){
             index=i;
             break;
         }
     }
-    if(index==0){
-        seekTime+= abs(temp[n-1]-head);
+    if(head>=temp[n-1]){
+        seekTime+=abs(trackLimit-head);
+        seekTime+= abs(trackLimit-temp[0]);
+    }
+    else if(head<=temp[0]){
+        seekTime+=abs(temp[n-1]-head);
     }
     else{
         seekTime+=abs(trackLimit-head);
@@ -103,13 +107,23 @@ int CSCAN(){
         }
     }
     for(i=0;i<n;i++){
-        if(head<temp[i]){
+        if(head<=temp[i]){
             index=i;
             break;
         }
     }
-    if(index==0){
-        seekTime+= abs(temp[n-1]-head);
+    if(head>=temp[n-1]){
+        seekTime+=abs(trackLimit-head);
+        seekTime+= abs(trackLimit-0);
+        if(head==temp[n-1]){
+            seekTime+=abs(0-temp[n-2]);
+        }
+        else{
+            seekTime+=abs(0-temp[n-1]);
+        }
+    }
+    else if(head<=temp[0]){
+        seekTime+=abs(temp[n-1]-head);
     }
     else{
         seekTime+=abs(trackLimit-head);
@@ -131,13 +145,16 @@ int LOOK(){
         }
     }
     for(i=0;i<n;i++){
-        if(head<temp[i]){
+        if(head<=temp[i]){
             index=i;
             break;
         }
     }
-    if(index==0){
-        seekTime+= abs(temp[n-1]-head);
+    if(head>=temp[n-1]){
+        seekTime+=abs(head-temp[0]);
+    }
+    else if(head<=temp[0]){
+        seekTime+=abs(temp[n-1]-head);
     }
     else{
         seekTime+=abs(temp[n-1]-head);
@@ -158,13 +175,22 @@ int CLOOK(){
         }
     }
     for(i=0;i<n;i++){
-        if(head<temp[i]){
+        if(head<=temp[i]){
             index=i;
             break;
         }
     }
-    if(index==0){
-        seekTime+= abs(temp[n-1]-head);
+    if(head>=temp[n-1]){
+        seekTime+=abs(head-temp[0]);
+        if(head==temp[n-1]){
+            seekTime+=abs(temp[0]-temp[n-2]);
+        }
+        else{
+            seekTime+=abs(temp[0]-temp[n-1]);
+        }
+    }
+    else if(head<=temp[0]){
+        seekTime+=abs(temp[n-1]-head);
     }
     else{
         seekTime+=abs(temp[n-1]-head);
