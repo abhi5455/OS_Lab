@@ -74,7 +74,7 @@ int SSTF(){
     return seekTime;
 }
 int SCAN(){
-    int i, j, seekTime=0, index=0;
+    int i, seekTime=0, index=0;
 
     sort(temp, n);
 
