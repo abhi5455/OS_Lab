@@ -203,7 +203,7 @@ int main(){
         temp[i]=request[i];
         if((request[i]>trackLimit)||(head>trackLimit)||(head<0)){
             printf("\nIndexOutOfBound Exception!\n");
-            return 1;
+            return -1;
         }
     }
     printf("Request Sequence: ");
