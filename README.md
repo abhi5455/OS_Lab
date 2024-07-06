@@ -15,6 +15,6 @@
    a) First Fit b) Worst Fit c) Best Fit
 8. Implement l page replacement algorithms a) FIFO b) LRU c) LFU*
 9. Implement the banker’s algorithm for deadlock avoidance. *
-10. Implementation of Deadlock detection algorithm
-11. Simulate disk scheduling algorithms. *
+10. Simulate disk scheduling algorithms. *
 a) FCFS b) SSTF c) SCAN d) C-SCAN e) LOOK f) C-LOOK
+11. Implementation of Deadlock detection algorithm
