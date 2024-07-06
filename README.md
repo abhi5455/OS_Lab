@@ -18,4 +18,4 @@
 10. Simulate disk scheduling algorithms. *
     a) FCFS b) SSTF c) SCAN d) C-SCAN e) LOOK f) C-LOOK
 
-NOTE: some programs are Linux Based.
+NOTE : Some programs are Linux Based.
