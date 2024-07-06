@@ -99,7 +99,7 @@ int SCAN(){
     return seekTime;
 }
 int CSCAN(){
-    int i, j, seekTime=0, currPos=head, index=0;
+    int i, seekTime=0, currPos=head, index=0;
 
     sort(temp, n);
 
