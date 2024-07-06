@@ -26,7 +26,7 @@ int FCFS(){
     return seekTime;
 }
 int SSTF(){
-    int i, j, seekTime=0, index=0, currPos, leftPos,rightPos;
+    int i, seekTime=0, index=0, currPos, leftPos,rightPos;
 
     sort(temp, n);
 
