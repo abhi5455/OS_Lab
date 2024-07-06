@@ -131,7 +131,7 @@ int CSCAN(){
     return seekTime;
 }
 int LOOK(){
-    int i, j, seekTime=0, currPos=head,index=0;
+    int i, seekTime=0, currPos=head,index=0;
 
     sort(temp, n);
 
